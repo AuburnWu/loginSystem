@@ -1,4 +1,4 @@
 package com.loginsystem.demo.controller;
 
-public class InternaUserController {
+public class InternalUserController {
 }
