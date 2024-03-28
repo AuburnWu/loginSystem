@@ -1,12 +1,19 @@
 package com.loginsystem.demo.dto;
 
 import lombok.Data;
+
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class ExternalUserLoginRequest {
-    @NotBlank
+public class ExternalUserQueryRequest {
+
     private String userName;
-    @NotBlank
+
     private String password;
+
+    private String email;
+
+    private String nationalIdNo;
+
+    private String unifiedBusinessNo;
 }
