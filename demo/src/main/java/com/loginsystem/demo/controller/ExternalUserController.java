@@ -23,7 +23,9 @@ public class ExternalUserController {
         externalUser.setNationalIdNo(externalUserCreateRequest.getNationalIdNo());
         externalUser.setUnifiedBusinessNo(externalUserCreateRequest.getUnifiedBusinessNo());
 
-        externalUserService.createUser(externalUser);
+        if (!externalUserService.createUser(externalUser).isEmpty()){
+
+        }
 
         return "";
     }
@@ -42,9 +44,8 @@ public class ExternalUserController {
     @PostMapping("/select")
     public String selectUserByName(@RequestBody ExternalUserQueryRequest externalUserQueryRequest){
         ExternalUser externalUser = new ExternalUser();
-        externalUser.setUserName(externalUserQueryRequest.getUserName());
 
-        externalUserService.selectUserByName(externalUser);
+        externalUserService.queryUserByName(externalUserQueryRequest.getUserName());
 
         return "";
     }
@@ -58,7 +59,7 @@ public class ExternalUserController {
         externalUser.setNationalIdNo(externalUserQueryRequest.getNationalIdNo());
         externalUser.setUnifiedBusinessNo(externalUserQueryRequest.getUnifiedBusinessNo());
 
-        externalUserService.selectUserByName(externalUserQueryRequest.getUserName());
+        externalUserService.queryUserByName(externalUserQueryRequest.getUserName());
         externalUserService.updataUser(externalUser);
 
         return "";
@@ -68,7 +69,7 @@ public class ExternalUserController {
     public String delete(@RequestBody ExternalUserQueryRequest externalUserQueryRequest){
         String UserName =  externalUserQueryRequest.getUserName();
 
-        externalUserService.selectUserByName(UserName);
+        externalUserService.queryUserByName(UserName);
         externalUserService.deleteUser(UserName);
 
         return "";
