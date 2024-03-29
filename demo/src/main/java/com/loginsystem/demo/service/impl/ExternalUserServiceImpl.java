@@ -26,11 +26,9 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     }
 
     @Override
-    public String loginUser(ExternalUser externalUser) {
+    public ExternalUser loginUser(ExternalUser externalUser) {
 
-        externalUserDao.login(externalUser);
-
-        return null;
+        return externalUserDao.login(externalUser);
     }
 
     @Override
