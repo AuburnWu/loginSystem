@@ -21,14 +21,20 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     ExternalUserDao externalUserDao;
 
     @Override
-    public String createUser(ExternalUser externalUser) {
+    public ExternalUserResponse<Void> createUser(ExternalUser externalUser) {
+//        設定預設密碼
         String defaultPwd = genDefaultPwd(8 );
         externalUser.setPassword(defaultPwd);
 
-        if(externalUserDao.insert(externalUser) > 0){
-            return OperationResult.ACCOUNT_CREATE_SUCCESS;
+        ExternalUserResponse<Void> externalUserResponse = new ExternalUserResponse<Void>();
+
+        if (externalUserDao.insert(externalUser) > 0) {
+            externalUserResponse.setOperateStatus(OperationResult.ACCOUNT_CREATE_SUCCESS);
+        } else {
+            externalUserResponse.setOperateStatus(OperationResult.ACCOUNT_CREATE_FAILURE);
         }
-        return OperationResult.ACCOUNT_CREATE_FAILURE;
+
+        return externalUserResponse;
     }
 
     @Override
@@ -62,22 +68,23 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     }
 
     @Override
-    public String updataUser(ExternalUser externalUser) {
+    public ExternalUserResponse<Void> updateUser(ExternalUser externalUser) {
+        ExternalUserResponse<Void> externalUserResponse = new ExternalUserResponse<Void>();
+        externalUserDao.update(externalUser);
 
-        if(externalUserDao.update(externalUser) > 0){
-            return
-        }
+        externalUserResponse.setOperateStatus(OperationResult.ACCOUNT_UPDATE_SUCCESS);
 
-
-        return null;
+        return externalUserResponse;
     }
 
     @Override
-    public String deleteUser(String userName) {
-
+    public ExternalUserResponse<Void> deleteUser(String userName) {
+        ExternalUserResponse<Void> externalUserResponse = new ExternalUserResponse<Void>();
         externalUserDao.delete(userName);
 
-        return null;
+        externalUserResponse.setOperateStatus(OperationResult.ACCOUNT_DELETE_SUCCESS);
+
+        return externalUserResponse;
     }
 
     public String genDefaultPwd(int length){
