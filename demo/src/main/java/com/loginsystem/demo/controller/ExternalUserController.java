@@ -3,10 +3,16 @@ package com.loginsystem.demo.controller;
 import com.loginsystem.demo.dto.ExternalUserCreateRequest;
 import com.loginsystem.demo.dto.ExternalUserLoginRequest;
 import com.loginsystem.demo.dto.ExternalUserQueryRequest;
+import com.loginsystem.demo.dto.ExternalUserResponse;
+import com.loginsystem.demo.enums.OperationResult;
 import com.loginsystem.demo.model.entity.ExternalUser;
 import com.loginsystem.demo.service.ExternalUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("external/user")
@@ -16,42 +22,45 @@ public class ExternalUserController {
     ExternalUserService externalUserService;
 
     @PostMapping("/register")
-    public String register(@RequestBody ExternalUserCreateRequest externalUserCreateRequest){
+    public ResponseEntity register(@RequestBody ExternalUserCreateRequest externalUserCreateRequest) {
         ExternalUser externalUser = new ExternalUser();
         externalUser.setUserName(externalUserCreateRequest.getUserName());
         externalUser.setEmail(externalUserCreateRequest.getEmail());
         externalUser.setNationalIdNo(externalUserCreateRequest.getNationalIdNo());
         externalUser.setUnifiedBusinessNo(externalUserCreateRequest.getUnifiedBusinessNo());
 
-        if (!externalUserService.createUser(externalUser).isEmpty()){
+        ExternalUserResponse<Void> response = externalUserService.createUser(externalUser);
 
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(response.getOperateStatus().getMessage());
 
-        return "";
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody ExternalUserLoginRequest externalUserLoginRequest){
+    public ResponseEntity<ExternalUserResponse<ExternalUser>> login(@RequestBody ExternalUserLoginRequest externalUserLoginRequest) {
         ExternalUser externalUser = new ExternalUser();
         externalUser.setUserName(externalUserLoginRequest.getUserName());
         externalUser.setPassword(externalUserLoginRequest.getPassword());
 
-        externalUserService.loginUser(externalUser);
-
-        return "";
+        ExternalUserResponse<ExternalUser> response = externalUserService.loginUser(externalUser);
+        if (response.getOperateStatus() == OperationResult.LOGIN_SUCCESS) {
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+//            return externalUserService.loginUser(externalUser);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
+
     @PostMapping("/select")
-    public String selectUserByName(@RequestBody ExternalUserQueryRequest externalUserQueryRequest){
+    public ResponseEntity<ExternalUserResponse<List<ExternalUser>>> selectUserByName(@RequestBody ExternalUserQueryRequest externalUserQueryRequest) {
         ExternalUser externalUser = new ExternalUser();
+        ExternalUserResponse<List<ExternalUser>> response = externalUserService.queryUsersByName(externalUserQueryRequest.getUserName());
 
-        externalUserService.queryUserByName(externalUserQueryRequest.getUserName());
-
-        return "";
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PutMapping("/update")
-    public String update(@RequestBody ExternalUserQueryRequest externalUserQueryRequest){
+    public ResponseEntity<ExternalUserResponse<Void>> update(@RequestBody ExternalUserQueryRequest externalUserQueryRequest) {
         ExternalUser externalUser = new ExternalUser();
         externalUser.setUserName(externalUserQueryRequest.getUserName());
         externalUser.setEmail(externalUserQueryRequest.getEmail());
@@ -59,20 +68,18 @@ public class ExternalUserController {
         externalUser.setNationalIdNo(externalUserQueryRequest.getNationalIdNo());
         externalUser.setUnifiedBusinessNo(externalUserQueryRequest.getUnifiedBusinessNo());
 
-        externalUserService.queryUserByName(externalUserQueryRequest.getUserName());
-        externalUserService.updataUser(externalUser);
+        ExternalUserResponse<Void> response = externalUserService.updateUser(externalUser);
 
-        return "";
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @DeleteMapping("/delete")
-    public String delete(@RequestBody ExternalUserQueryRequest externalUserQueryRequest){
-        String UserName =  externalUserQueryRequest.getUserName();
+    public ResponseEntity<ExternalUserResponse<Void>> delete(@RequestBody ExternalUserQueryRequest externalUserQueryRequest) {
+        String UserName = externalUserQueryRequest.getUserName();
 
-        externalUserService.queryUserByName(UserName);
-        externalUserService.deleteUser(UserName);
+        ExternalUserResponse<Void> response = externalUserService.deleteUser(UserName);
 
-        return "";
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }

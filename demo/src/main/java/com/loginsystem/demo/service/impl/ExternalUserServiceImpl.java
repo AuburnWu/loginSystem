@@ -12,8 +12,6 @@ import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.List;
 
-import static java.sql.Types.NULL;
-
 @Service
 public class ExternalUserServiceImpl implements ExternalUserService {
 
@@ -48,6 +46,7 @@ public class ExternalUserServiceImpl implements ExternalUserService {
             externalUserResponse.setOperateStatus(OperationResult.LOGIN_SUCCESS);
         }
 
+//        externalUserResponse.setReturnData(null);
         externalUserResponse.setOperateStatus(OperationResult.LOGIN_FAILURE);
 
         return externalUserResponse;
@@ -59,6 +58,7 @@ public class ExternalUserServiceImpl implements ExternalUserService {
         ExternalUserResponse<List<ExternalUser>> externalUserResponse = new ExternalUserResponse<List<ExternalUser>>();
         List<ExternalUser> selectResult = externalUserDao.selectByName(keyWord);
 
+        System.err.println("selectResult == " + selectResult);
         if(!selectResult.isEmpty()){
             externalUserResponse.setReturnData(selectResult);
         }

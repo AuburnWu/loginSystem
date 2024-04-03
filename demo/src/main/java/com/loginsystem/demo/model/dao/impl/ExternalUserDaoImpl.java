@@ -46,10 +46,10 @@ public class ExternalUserDaoImpl implements ExternalUserDao {
     public ExternalUser login(ExternalUser externalUser) {
 
         String sql = "SELECT userId, email, National_ID_No, Unified_Business_No "
-                + "FROM externalUser"
+                + "FROM externalUser "
                 + "WHERE "
                 + "userName = :userName "
-                + "AND"
+                + "AND "
                 + "password = :password ";
 
         MapSqlParameterSource params = new MapSqlParameterSource();
@@ -63,7 +63,7 @@ public class ExternalUserDaoImpl implements ExternalUserDao {
     public List<ExternalUser> selectByName(String userName) {
 
         String sql = "SELECT userId, email, National_ID_No, Unified_Business_No "
-                + "FROM externalUser"
+                + "FROM externalUser "
                 + "WHERE "
                 + "userName like :userName";
         MapSqlParameterSource params = new MapSqlParameterSource();
@@ -77,7 +77,7 @@ public class ExternalUserDaoImpl implements ExternalUserDao {
 
         String sql =
                 "UPDATE externalUser "
-                + "SET"
+                + "SET "
                 + "email = :email, "
                 + "password = :password, "
                 + "National_ID_No = :nationalIdNo, "
