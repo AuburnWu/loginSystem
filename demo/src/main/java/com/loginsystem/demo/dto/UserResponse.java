@@ -5,7 +5,7 @@ import lombok.Data;
 
 //對 controller 回傳 資料與處理狀態
 @Data
-public class ExternalUserResponse<T> {
+public class UserResponse<T> {
 
    private T returnData;
 

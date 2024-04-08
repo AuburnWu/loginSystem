@@ -2,9 +2,9 @@ package com.loginsystem.demo.service.impl;
 
 import com.loginsystem.demo.dto.UserResponse;
 import com.loginsystem.demo.enums.OperationResult;
-import com.loginsystem.demo.model.dao.ExternalUserDao;
-import com.loginsystem.demo.model.entity.ExternalUser;
-import com.loginsystem.demo.service.ExternalUserService;
+import com.loginsystem.demo.model.dao.InternalUserDao;
+import com.loginsystem.demo.model.entity.InternalUser;
+import com.loginsystem.demo.service.InternalUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,20 +13,17 @@ import java.util.Base64;
 import java.util.List;
 
 @Service
-public class ExternalUserServiceImpl implements ExternalUserService {
+public class InternalUserServiceImpl implements InternalUserService {
 
     @Autowired
-    ExternalUserDao externalUserDao;
+    InternalUserDao internalUserDao;
 
     @Override
-    public UserResponse<Void> createUser(ExternalUser externalUser) {
-//        設定預設密碼
-        String defaultPwd = genDefaultPwd(8 );
-        externalUser.setPassword(defaultPwd);
+    public UserResponse<Void> createUser(InternalUser internalUser) {
 
         UserResponse<Void> UserResponse = new UserResponse<Void>();
 
-        if (externalUserDao.insert(externalUser) > 0) {
+        if (internalUserDao.insert(internalUser) > 0) {
             UserResponse.setOperateStatus(OperationResult.ACCOUNT_CREATE_SUCCESS);
         } else {
             UserResponse.setOperateStatus(OperationResult.ACCOUNT_CREATE_FAILURE);
@@ -36,10 +33,10 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     }
 
     @Override
-    public UserResponse<ExternalUser> loginUser(ExternalUser externalUser) {
+    public UserResponse<InternalUser> loginUser(InternalUser internalUser) {
 
-        UserResponse<ExternalUser> UserResponse = new UserResponse<ExternalUser>();
-        ExternalUser loginAccount = externalUserDao.login(externalUser);
+        UserResponse<InternalUser> UserResponse = new UserResponse<InternalUser>();
+        InternalUser loginAccount = internalUserDao.login(internalUser);
 
         if(loginAccount != null){
             UserResponse.setReturnData(loginAccount);
@@ -54,9 +51,9 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     }
 
     @Override
-    public UserResponse<List<ExternalUser>> queryUsersByName(String keyWord) {
-        UserResponse<List<ExternalUser>> UserResponse = new UserResponse<List<ExternalUser>>();
-        List<ExternalUser> selectResult = externalUserDao.selectByName(keyWord);
+    public UserResponse<List<InternalUser>> queryUsersByName(String keyWord) {
+        UserResponse<List<InternalUser>> UserResponse = new UserResponse<List<InternalUser>>();
+        List<InternalUser> selectResult = internalUserDao.selectByName(keyWord);
 
         System.err.println("selectResult == " + selectResult);
         if(!selectResult.isEmpty()){
@@ -68,9 +65,9 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     }
 
     @Override
-    public UserResponse<Void> updateUser(ExternalUser externalUser) {
+    public UserResponse<Void> updateUser(InternalUser internalUser) {
         UserResponse<Void> UserResponse = new UserResponse<Void>();
-        externalUserDao.update(externalUser);
+        internalUserDao.update(internalUser);
 
         UserResponse.setOperateStatus(OperationResult.ACCOUNT_UPDATE_SUCCESS);
 
@@ -80,7 +77,7 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     @Override
     public UserResponse<Void> deleteUser(String userName) {
         UserResponse<Void> UserResponse = new UserResponse<Void>();
-        externalUserDao.delete(userName);
+        internalUserDao.delete(userName);
 
         UserResponse.setOperateStatus(OperationResult.ACCOUNT_DELETE_SUCCESS);
 

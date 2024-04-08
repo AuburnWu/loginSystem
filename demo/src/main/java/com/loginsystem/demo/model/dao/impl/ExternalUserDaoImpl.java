@@ -45,7 +45,7 @@ public class ExternalUserDaoImpl implements ExternalUserDao {
     @Override
     public ExternalUser login(ExternalUser externalUser) {
 
-        String sql = "SELECT userId, email, National_ID_No, Unified_Business_No "
+        String sql = "SELECT userId, userName, email, National_ID_No, Unified_Business_No "
                 + "FROM externalUser "
                 + "WHERE "
                 + "userName = :userName "
@@ -64,7 +64,7 @@ public class ExternalUserDaoImpl implements ExternalUserDao {
     @Override
     public List<ExternalUser> selectByName(String userName) {
 
-        String sql = "SELECT userId, email, National_ID_No, Unified_Business_No "
+        String sql = "SELECT userId, userName, email, National_ID_No, Unified_Business_No "
                 + "FROM externalUser "
                 + "WHERE "
                 + "userName like :userName";

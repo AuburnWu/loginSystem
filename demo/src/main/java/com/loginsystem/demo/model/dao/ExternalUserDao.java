@@ -11,4 +11,5 @@ public interface ExternalUserDao {
     List<ExternalUser> selectByName(String userName);
     int update(ExternalUser externalUser);
     int delete(String userName);
+
 }

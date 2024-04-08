@@ -9,11 +9,12 @@ import java.sql.SQLException;
 public class ExternalUserRowMapper implements RowMapper<ExternalUser> {
     @Override
     public ExternalUser mapRow(ResultSet rs, int rowNum) throws SQLException {
-        ExternalUser user = new ExternalUser();
-        user.setUserId(rs.getInt("userId"));
-        user.setEmail(rs.getString("email"));
-        user.setNationalIdNo(rs.getString("National_ID_No"));
-        user.setUnifiedBusinessNo(rs.getString("Unified_Business_No"));
-        return user;
+        ExternalUser externalUser = new ExternalUser();
+        externalUser.setUserId(rs.getInt("userId"));
+        externalUser.setUserName(rs.getString("userName"));
+        externalUser.setEmail(rs.getString("email"));
+        externalUser.setNationalIdNo(rs.getString("National_ID_No"));
+        externalUser.setUnifiedBusinessNo(rs.getString("Unified_Business_No"));
+        return externalUser;
     }
 }
