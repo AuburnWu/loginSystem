@@ -42,10 +42,11 @@ public class ExternalUserController {
         externalUser.setPassword(externalUserLoginRequest.getPassword());
 
         ExternalUserResponse<ExternalUser> response = externalUserService.loginUser(externalUser);
-        if (response.getOperateStatus() == OperationResult.LOGIN_SUCCESS) {
-            return ResponseEntity.status(HttpStatus.OK).body(response);
-//            return externalUserService.loginUser(externalUser);
-        }
+
+//        if (response.getOperateStatus() == OperationResult.LOGIN_SUCCESS) {
+//            return ResponseEntity.status(HttpStatus.OK).body(response);
+////            return externalUserService.loginUser(externalUser);
+//        }
         return ResponseEntity.status(HttpStatus.OK).body(response);
 //        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }

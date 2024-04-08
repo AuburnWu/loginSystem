@@ -56,7 +56,9 @@ public class ExternalUserDaoImpl implements ExternalUserDao {
         params.addValue("userName", externalUser.getUserName());
         params.addValue("password", externalUser.getPassword());
 
-        return namedParameterJdbcTemplate.queryForObject(sql, params, new ExternalUserRowMapper());
+        List<ExternalUser> accountData = namedParameterJdbcTemplate.query(sql, params, new ExternalUserRowMapper());
+        return accountData.isEmpty() ? null : accountData.get(0);
+
     }
 
     @Override
