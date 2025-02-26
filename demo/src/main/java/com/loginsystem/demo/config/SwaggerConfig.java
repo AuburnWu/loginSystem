@@ -12,9 +12,8 @@ public class SwaggerConfig {
     public OpenAPI publicApi() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Ironman2023 API Documentation - 2023 IT鐵人賽範例")
-                        .description("SpringBoot 3.x application")
-                        .version("v0.0.1")
+                        .title("swagger test")
+                        .description("SpringBoot application")
                 );
     }
 
